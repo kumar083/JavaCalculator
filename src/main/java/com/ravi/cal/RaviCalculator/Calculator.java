@@ -2,7 +2,7 @@ package com.ravi.cal.RaviCalculator;
 
 public class Calculator {
 
-	private long fir;
+	private long first;
 	private long second;
 	
 	public Calculator(long first, long second){
@@ -30,7 +30,7 @@ public class Calculator {
 	
 	public long mulFucn(long first, long second){
 		
-		return first*second;
+		return first/second;
 	}
 	
 	
