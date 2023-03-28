@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        //imagename = "ramisetty32/mywebapp:latest"
+        //imagename = "kumar083/JavaCalculator/mytest:latest"
         DOCKERHUB_CREDENTIALS=credentials('docker_hub')
         REMOTE_USER='ubuntu'
         REMOTE_SERVER='35.88.136.192'
@@ -13,7 +13,7 @@ pipeline {
         stage('checkout'){
             steps {
                 echo "its a cloning stage"
-                git branch: 'main', url: 'https://github.com/ramisetty1/DevOps-CI-CD-Project.git'
+                git branch: 'main', url: 'https://github.com/kumar083/JavaCalculator.git'
             }
         }
         stage('build') {
@@ -31,16 +31,16 @@ pipeline {
         stage('docker_image') {
             steps {
                 echo "building docker image "
-                //sh 'docker build -t mywebapp .'
-                //sh 'docker tag mywebapp ramisetty32/mywebapp:latest'
-                sh 'docker build -t ramisetty32/mywebapp:$BUILD_NUMBER .'
+                //sh 'docker build -t mytest .'
+                //sh 'docker tag mywebapp kumar083/mytest:latest'
+                sh 'docker build -t kumar083/mytest:$BUILD_NUMBER .'
             }
         }
         /*stage('Push'){
             steps{
                 withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
         	     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                 sh 'docker push mywebapp ramisetty32/mywebapp:latest'
+                 sh 'docker push mywebapp kumar083/mytest:latest'
                 }
             }
         }*/
@@ -53,7 +53,7 @@ pipeline {
         
         stage('uplaod') {
             steps {
-                sh 'docker push ramisetty32/mywebapp:$BUILD_NUMBER'
+                sh 'docker push kumar083/mytest:$BUILD_NUMBER'
             }
         }
         
@@ -61,9 +61,9 @@ pipeline {
         stage('deploy') {
             steps {
                 sshagent(['aws_login']) {
-                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker stop mywebapp || true && docker rm mywebapp || true'" 
-                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker pull ramisetty32/mywebapp:$BUILD_NUMBER'" 
-                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker run --name mywebapp -d -p 8081:8081 ramisetty32/mywebapp:$BUILD_NUMBER'"
+                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker stop mytest || true && docker rm mytest || true'" 
+                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker pull kumar083/mytest:$BUILD_NUMBER'" 
+                    sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_SERVER} 'docker run --name mytest -d -p 8081:8081 kumar083/mytest:$BUILD_NUMBER'"
     
             }
             }
