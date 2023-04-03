@@ -1,9 +1,13 @@
-sudo docker build -t mytest:v1
-sudo docker run -d -P mytest:v1
+#Maintainer of this image 
+LABEL Maintainer="Hemanth"
 
-sudo yum -y install git 
-git clone https://github.com/kumar083/JavaCalculator.git
-sudo yum -y install docker
-sudo yum -y install httpd 
- 
+#Copying jar file from target folder 
+COPY target/web-services.jar web-services.jar
 
+#Expose app to outer world on this port 
+
+Expose 8081
+
+#Run executable with this command 
+ENTRYPOINT ["java", "-jar", "practice-project1.jar"]
+root@    :/var/lib/jenkins/workspace/practice-project1.jar# cd 
